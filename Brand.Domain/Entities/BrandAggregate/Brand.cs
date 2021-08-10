@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Brand.Domain.Interfaces;
 
-namespace Brand.Domain.Entities
+namespace Brand.Domain.Entities.BrandAggregate
 {
     public class Brand : BaseEntity, IAggregateRoot
     {

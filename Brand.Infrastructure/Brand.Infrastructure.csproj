@@ -5,7 +5,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Services" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Npgsql" Version="6.0.0-preview6" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Brand.Domain\Brand.Domain.csproj" />
     </ItemGroup>
 
 </Project>

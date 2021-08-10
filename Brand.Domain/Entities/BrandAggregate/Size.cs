@@ -1,15 +1,21 @@
 using System.Collections.Generic;
+using Brand.Domain.Interfaces;
 
-namespace Brand.Domain.Entities
+namespace Brand.Domain.Entities.BrandAggregate
 {
+    // public class Size : BaseEntity, IAggregateRoot
     public class Size : ValueObject
     {
         public string RusSize { get; private set; }
         public string BrandSize { get; private set; }
 
-        public Size()
+        //For EF
+        public int BrandId { get; set; }
+        public Brand Brand { get; set; }
+
+        private Size()
         {
-            
+
         }
 
         public Size(string rusSize, string brandSize)
@@ -17,7 +23,6 @@ namespace Brand.Domain.Entities
             RusSize = rusSize;
             BrandSize = brandSize;
         }
-
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return RusSize;
