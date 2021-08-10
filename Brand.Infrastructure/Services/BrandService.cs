@@ -44,6 +44,26 @@ namespace Brand.Infrastructure.Services
             return brand;
         }
 
+        public async Task<Domain.Entities.BrandAggregate.Brand> FindAsync(string name)
+        {
+            var brand = await _brandRepository.FindAsync(name);
+            if (brand is null)
+            {
+                throw new BrandException("Brand not found");
+            }
+            return brand;
+        }
+
+        public async Task<Domain.Entities.BrandAggregate.Brand> FindWithSizesAsync(string name)
+        {
+            var brand = await _brandRepository.FindWithSizeAsync(name);
+            if (brand is null)
+            {
+                throw new BrandException("Brand not found");
+            }
+            return brand;
+        }
+
         public async Task<List<Domain.Entities.BrandAggregate.Brand>> GetRangeAsync()
         {
             return await _brandRepository.GetRangeAsync();

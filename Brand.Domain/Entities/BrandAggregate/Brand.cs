@@ -1,5 +1,8 @@
+#nullable enable
 using System.Collections;
 using System.Collections.Generic;
+using Brand.Domain.Entities;
+using Brand.Domain.Entities.BrandAggregate;
 using Brand.Domain.Interfaces;
 
 namespace Brand.Domain.Entities.BrandAggregate
@@ -8,7 +11,7 @@ namespace Brand.Domain.Entities.BrandAggregate
     {
         public string Name { get; private set; }
         
-        public IEnumerable<Size> Sizes { get; private set; }
+        public IEnumerable<Size>? Sizes { get; private set; }
 
         //TODO:Remove this!
         public void SetSizes(IEnumerable<Size> sizes)
@@ -21,7 +24,7 @@ namespace Brand.Domain.Entities.BrandAggregate
             
         }
 
-        public Brand(int id, string name, IEnumerable<Size> sizes)
+        public Brand(int id, string name, IEnumerable<Size>? sizes)
         {
             base.Id = id;
             Name = name;

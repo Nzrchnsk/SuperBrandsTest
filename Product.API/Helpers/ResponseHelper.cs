@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Brand.API.Responses;
-using Brand.Domain.Exception;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Product.API.Responses;
+using Product.Domain.Exception;
 
-namespace Brand.API.Helpers
+namespace Product.API.Helpers
 {
     public class ResponseHelper : IResponseHelper
     {
@@ -17,7 +17,7 @@ namespace Brand.API.Helpers
             {
                 return await func();
             }
-            catch (BrandException e)
+            catch (ProductException e)
             {
                 var response = PrepareBadRequestResult(e);
                 return response;
@@ -28,7 +28,7 @@ namespace Brand.API.Helpers
             }
         }
         
-        private static IActionResult PrepareBadRequestResult(BrandException e)
+        private static IActionResult PrepareBadRequestResult(ProductException e)
         {
             var errors = JsonConvert.DeserializeObject<ICollection<string>>(e.Message);
             var errorResponse = new ErrorResponse();

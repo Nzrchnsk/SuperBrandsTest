@@ -6,13 +6,15 @@ namespace Brand.Domain.Interfaces
 {
     public interface IBrandService
     {
-        public Task<Entities.BrandAggregate.Brand> GetAsync(int id);
-        public Task<Entities.BrandAggregate.Brand> GetWithSizesAsync(int id);
+        Task<Entities.BrandAggregate.Brand> GetAsync(int id);
+        Task<Entities.BrandAggregate.Brand> GetWithSizesAsync(int id);
+        Task<Entities.BrandAggregate.Brand> FindAsync(string name);
+        Task<Entities.BrandAggregate.Brand> FindWithSizesAsync(string name);
         // TODO: IAsyncEnumerable?
-        public Task<List<Entities.BrandAggregate.Brand>> GetRangeAsync();
-        public Task<List<Entities.BrandAggregate.Brand>> GetRangeAsync(int limit, int offset);
-        public Task<Entities.BrandAggregate.Brand> CreateAsync(Entities.BrandAggregate.Brand brand);
-        public Task<Entities.BrandAggregate.Brand> AddSizeAsync(Size size, int brandId);
-        public Task<Entities.BrandAggregate.Brand> AddSizeRangeAsync(IEnumerable<Size> sizes, int brandId);
+        Task<List<Entities.BrandAggregate.Brand>> GetRangeAsync();
+        Task<List<Entities.BrandAggregate.Brand>> GetRangeAsync(int limit, int offset);
+        Task<Entities.BrandAggregate.Brand> CreateAsync(Entities.BrandAggregate.Brand brand);
+        Task<Entities.BrandAggregate.Brand> AddSizeAsync(Size size, int brandId);
+        Task<Entities.BrandAggregate.Brand> AddSizeRangeAsync(IEnumerable<Size> sizes, int brandId);
     }
 }

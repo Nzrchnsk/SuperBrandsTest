@@ -12,6 +12,10 @@ namespace Product.Domain.Entities
 
         public string RusSize { get; private set; }
 
+        public void SetBrandId(int brandId)
+        {
+            BrandId = brandId;
+        }
         private Product()
         {
             

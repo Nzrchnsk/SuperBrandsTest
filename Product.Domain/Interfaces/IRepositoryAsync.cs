@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Brand.Domain.Entities;
+using Product.Domain.Entities;
 
-namespace Brand.Domain.Interfaces
+namespace Product.Domain.Interfaces
 {
     public interface IRepositoryAsync<TEntity> where TEntity : BaseEntity
     {

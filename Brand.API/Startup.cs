@@ -28,24 +28,28 @@ namespace Brand.API
         }
 
         public IConfiguration Configuration { get; }
+        private readonly string CorsPolice = "AllowOrigin";
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+                options.AddPolicy(CorsPolice, options => options.AllowAnyOrigin()));
 
             services.AddDbContext<BrandDBContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("BrandConnection"),
                     x => x.UseNetTopologySuite()));
 
             services.AddAutoMapper(typeof(MappingProfile));
-            
+
             services.AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
-            services.AddTransient<IBrandRepositoryAsync, BrandRepositoryAsync>();  
-            services.AddTransient<IBrandService, BrandService>();  
-            
-            
+            services.AddTransient<IBrandRepositoryAsync, BrandRepositoryAsync>();
+            services.AddTransient<IBrandService, BrandService>();
+
+
             //TODO:Add jwt auth
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -67,6 +71,11 @@ namespace Brand.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Brand.API v1"));
             }
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
             app.UseHttpsRedirection();
 

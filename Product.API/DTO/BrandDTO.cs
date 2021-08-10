@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 
-namespace Brand.API.DTO
+namespace Product.API.DTO
 {
     public class BrandDTO
     {

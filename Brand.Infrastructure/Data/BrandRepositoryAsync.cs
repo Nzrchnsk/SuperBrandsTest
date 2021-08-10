@@ -32,6 +32,20 @@ namespace Brand.Infrastructure.Data
             return brand;
         }
 
+        public async Task<Domain.Entities.BrandAggregate.Brand> FindAsync(string name)
+        {
+            var brand = await _dbContext.Set<Domain.Entities.BrandAggregate.Brand>().FirstOrDefaultAsync(x => x.Name == name);
+            return brand;
+        }
+        public async Task<Domain.Entities.BrandAggregate.Brand> FindWithSizeAsync(string name)
+        {
+            //TODO: Refactor this method
+            var brand = await _dbContext.Set<Domain.Entities.BrandAggregate.Brand>().FirstOrDefaultAsync(x => x.Name == name);
+            var sizes = await _dbContext.Set<Size>().Where(x => x.BrandId == brand.Id).ToListAsync();
+            brand.SetSizes(sizes);
+            return brand;
+        }
+
         public async Task<Domain.Entities.BrandAggregate.Brand> AddSizeAsync(Domain.Entities.BrandAggregate.Brand brand, Size size)
         {
             await _dbContext.Set<Size>().AddAsync(size);
