@@ -23,6 +23,13 @@ namespace Brand.Domain.Entities.BrandAggregate
             RusSize = rusSize;
             BrandSize = brandSize;
         }
+        
+        public Size(string rusSize, string brandSize, int brandId)
+        {
+            RusSize = rusSize;
+            BrandSize = brandSize;
+            BrandId = brandId;
+        }
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return RusSize;

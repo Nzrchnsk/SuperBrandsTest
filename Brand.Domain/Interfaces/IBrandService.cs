@@ -1,17 +1,18 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Brand.Domain.Entities.BrandAggregate;
 
 namespace Brand.Domain.Interfaces
 {
     public interface IBrandService
     {
-        //TODO:Async?
-        public Entities.BrandAggregate.Brand Get(int id);
-        public Entities.BrandAggregate.Brand GetWithSizes(int id);
-        public List<Entities.BrandAggregate.Brand> GetRange();
-        public List<Entities.BrandAggregate.Brand> GetRange(int limit, int offset);
-        public Entities.BrandAggregate.Brand Create(int id);
-        public Entities.BrandAggregate.Brand AddSize(Size size);
-        public Entities.BrandAggregate.Brand AddSize(IEnumerable<Size> size);
+        public Task<Entities.BrandAggregate.Brand> GetAsync(int id);
+        public Task<Entities.BrandAggregate.Brand> GetWithSizesAsync(int id);
+        // TODO: IAsyncEnumerable?
+        public Task<List<Entities.BrandAggregate.Brand>> GetRangeAsync();
+        public Task<List<Entities.BrandAggregate.Brand>> GetRangeAsync(int limit, int offset);
+        public Task<Entities.BrandAggregate.Brand> CreateAsync(Entities.BrandAggregate.Brand brand);
+        public Task<Entities.BrandAggregate.Brand> AddSizeAsync(Size size, int brandId);
+        public Task<Entities.BrandAggregate.Brand> AddSizeAsync(IEnumerable<Size> sizes, int brandId);
     }
 }

@@ -8,9 +8,9 @@ using Size = Brand.Domain.Entities.BrandAggregate.Size;
 
 namespace Brand.Infrastructure.Data
 {
-    public class BrandRepository : AsyncRepository<Domain.Entities.BrandAggregate.Brand>, IBrandRepository
+    public class BrandRepositoryAsync : RepositoryAsync<Domain.Entities.BrandAggregate.Brand>, IBrandRepositoryAsync
     {
-        public BrandRepository(DbContext dbContext) : base(dbContext)
+        public BrandRepositoryAsync(DbContext dbContext) : base(dbContext)
         {
         }
 

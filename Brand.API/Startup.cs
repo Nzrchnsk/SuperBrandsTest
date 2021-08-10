@@ -2,10 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Brand.API.AutoMapper;
+using Brand.Domain.Interfaces;
+using Brand.Infrastructure.Data;
+using Brand.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +33,19 @@ namespace Brand.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<BrandDBContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+                    x => x.UseNetTopologySuite()));
+
+            services.AddAutoMapper(typeof(MappingProfile));
+            
+            services.AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
+            services.AddTransient<IBrandRepositoryAsync, BrandRepositoryAsync>();  
+            services.AddTransient<IBrandService, BrandService>();  
+            
+            
+            //TODO:Add jwt auth
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
