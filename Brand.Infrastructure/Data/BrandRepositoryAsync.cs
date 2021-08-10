@@ -10,23 +10,26 @@ namespace Brand.Infrastructure.Data
 {
     public class BrandRepositoryAsync : RepositoryAsync<Domain.Entities.BrandAggregate.Brand>, IBrandRepositoryAsync
     {
-        public BrandRepositoryAsync(DbContext dbContext) : base(dbContext)
+        public BrandRepositoryAsync(BrandDBContext dbContext) : base(dbContext)
         {
         }
 
         public async Task<Domain.Entities.BrandAggregate.Brand> GetWithSizesAsync(int id)
         {
-            var query = from brand in _dbContext.Set<Domain.Entities.BrandAggregate.Brand>()
-                where brand.Id == id
-                select new Domain.Entities.BrandAggregate.Brand(id: brand.Id,
-                    name: brand.Name,
-                    sizes:
-                    from size in _dbContext.Set<Domain.Entities.BrandAggregate.Size>()
-                    where size.BrandId == brand.Id
-                    select new Domain.Entities.BrandAggregate.Size(rusSize: size.RusSize, brandSize: size.BrandSize)
-                );
-            var entity = await query.FirstOrDefaultAsync();
-            return entity;
+            // var query = _dbContext.Set<Domain.Entities.BrandAggregate.Brand>()
+            //     .Where(brand => brand.Id == id)
+            //     .Select(brand => new Domain.Entities.BrandAggregate.Brand(brand.Id,
+            //         brand.Name,
+            //         from size in _dbContext.Set<Domain.Entities.BrandAggregate.Size>()
+            //         where size.BrandId == brand.Id
+            //         select new Domain.Entities.BrandAggregate.Size(size.RusSize, size.BrandSize)));
+            // var entity = await query.FirstOrDefaultAsync();
+            // return entity;
+            //TODO: Refactor this method
+            var brand = await _dbContext.Set<Domain.Entities.BrandAggregate.Brand>().FindAsync(id);
+            var sizes = await _dbContext.Set<Size>().Where(x => x.BrandId == brand.Id).ToListAsync();
+            brand.SetSizes(sizes);
+            return brand;
         }
 
         public async Task<Domain.Entities.BrandAggregate.Brand> AddSizeAsync(Domain.Entities.BrandAggregate.Brand brand, Size size)

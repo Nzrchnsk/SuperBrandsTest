@@ -13,6 +13,6 @@ namespace Brand.Domain.Interfaces
         public Task<List<Entities.BrandAggregate.Brand>> GetRangeAsync(int limit, int offset);
         public Task<Entities.BrandAggregate.Brand> CreateAsync(Entities.BrandAggregate.Brand brand);
         public Task<Entities.BrandAggregate.Brand> AddSizeAsync(Size size, int brandId);
-        public Task<Entities.BrandAggregate.Brand> AddSizeAsync(IEnumerable<Size> sizes, int brandId);
+        public Task<Entities.BrandAggregate.Brand> AddSizeRangeAsync(IEnumerable<Size> sizes, int brandId);
     }
 }

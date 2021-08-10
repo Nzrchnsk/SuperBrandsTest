@@ -13,7 +13,7 @@ namespace Brand.Domain.Entities.BrandAggregate
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
 
-        private Size()
+        public Size()
         {
 
         }

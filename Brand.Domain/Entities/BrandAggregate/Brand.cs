@@ -10,7 +10,13 @@ namespace Brand.Domain.Entities.BrandAggregate
         
         public IEnumerable<Size> Sizes { get; private set; }
 
-        private Brand()
+        //TODO:Remove this!
+        public void SetSizes(IEnumerable<Size> sizes)
+        {
+            Sizes = sizes;
+        }
+        
+        public Brand()
         {
             
         }
@@ -20,6 +26,11 @@ namespace Brand.Domain.Entities.BrandAggregate
             base.Id = id;
             Name = name;
             Sizes = sizes;
+        } 
+        public Brand(int id, string name)
+        {
+            base.Id = id;
+            Name = name;
         }
     }
 }

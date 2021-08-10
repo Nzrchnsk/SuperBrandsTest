@@ -72,7 +72,7 @@ namespace Brand.Infrastructure.Services
             return brand;
         }
 
-        public async Task<Domain.Entities.BrandAggregate.Brand> AddSizeAsync(IEnumerable<Size> sizes, int brandId)
+        public async Task<Domain.Entities.BrandAggregate.Brand> AddSizeRangeAsync(IEnumerable<Size> sizes, int brandId)
         {
             var brand = await _brandRepository.GetWithSizesAsync(brandId);
 

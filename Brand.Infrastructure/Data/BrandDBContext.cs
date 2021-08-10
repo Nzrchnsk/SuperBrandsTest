@@ -7,6 +7,7 @@ namespace Brand.Infrastructure.Data
     public class BrandDBContext : DbContext
     {
         public DbSet<Domain.Entities.BrandAggregate.Brand> Brands;
+        public DbSet<Domain.Entities.BrandAggregate.Size> Sizes;
         
         public BrandDBContext(DbContextOptions<BrandDBContext> options) : base(options)
         {

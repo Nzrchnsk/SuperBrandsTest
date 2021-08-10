@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Brand.Infrastructure.Data
 {
-    public abstract class RepositoryAsync<TEntity> : IRepositoryAsync<TEntity> where TEntity: BaseEntity, IAggregateRoot
+    public class RepositoryAsync<TEntity> : IRepositoryAsync<TEntity> where TEntity: BaseEntity, IAggregateRoot
     {
 
         protected DbContext _dbContext;

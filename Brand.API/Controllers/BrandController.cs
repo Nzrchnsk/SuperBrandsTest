@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 namespace Brand.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("brand")]
     public class BrandController : ControllerBase
     {
 
@@ -35,6 +35,7 @@ namespace Brand.API.Controllers
         }
 
         [HttpGet]
+        [Route("range")]
         public async Task<IActionResult> Get()
         {
             return await _responseHelper.CreateResponse(async () =>
@@ -50,58 +51,81 @@ namespace Brand.API.Controllers
         }
 
         [HttpGet]
+        [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
             return await _responseHelper.CreateResponse(async () =>
             {
                 var brand = await _brandService.GetWithSizesAsync(id);
                 var ret = _mapper.Map<Domain.Entities.BrandAggregate.Brand, BrandDTO>(brand);
-                foreach (var size in brand.Sizes)
-                {
-                    ret.Sizes.Add(_mapper.Map<Size, SizeDTO>(size));
-                }
+                // foreach (var size in brand.Sizes)
+                // {
+                //     ret.Sizes.Add(_mapper.Map<Size, SizeDTO>(size));
+                // }
                 return Ok(ret);
             });
         }
-
-
+        
         [HttpPost]
-        public async Task<IActionResult> AddSize([FromBody]SizeDTO sizeDTO, [FromQuery]int brandId = 0)
+        [Route("")]
+        public async Task<IActionResult> Post([FromBody] CreateBrandDTO brandDTO)
         {
             return await _responseHelper.CreateResponse(async () =>
             {
-                var brand = await _brandService.AddSizeAsync(new Size(rusSize:sizeDTO.RusSize, brandSize:sizeDTO.BrandSize, brandId: brandId), 
-                    brandId);
-                var ret = _mapper.Map<Domain.Entities.BrandAggregate.Brand, BrandDTO>(brand);
-                foreach (var size in brand.Sizes)
+                var brand = await _brandService.CreateAsync(new Domain.Entities.BrandAggregate.Brand(0, brandDTO.Name));
+                
+                var sizes = new List<Size>();
+                foreach (var sizeDTO in brandDTO.Sizes)
                 {
-                    ret.Sizes.Add(_mapper.Map<Size, SizeDTO>(size));
+                    sizes.Add(new Size(rusSize:sizeDTO.RusSize, brandSize:sizeDTO.BrandSize, brandId: brand.Id));
                 }
+                brand = await _brandService.AddSizeRangeAsync(sizes, brand.Id);
+                var ret = _mapper.Map<Domain.Entities.BrandAggregate.Brand, BrandDTO>(brand);
+                // foreach (var size in brand.Sizes)
+                // {
+                //     ret.Sizes.Add(_mapper.Map<Size, SizeDTO>(size));
+                // }
+                return Ok(ret);
+            });
+        }
+        
+
+        [HttpPost]
+        [Route("{id}/size")]
+        public async Task<IActionResult> Post([FromBody]SizeDTO sizeDTO, [FromRoute]int id = 0)
+        {
+            return await _responseHelper.CreateResponse(async () =>
+            {
+                var brand = await _brandService.AddSizeAsync(new Size(rusSize:sizeDTO.RusSize, brandSize:sizeDTO.BrandSize, brandId: id), 
+                    id);
+                var ret = _mapper.Map<Domain.Entities.BrandAggregate.Brand, BrandDTO>(brand);
+                // foreach (var size in brand.Sizes)
+                // {
+                //     ret.Sizes.Add(_mapper.Map<Size, SizeDTO>(size));
+                // }
                 return Ok(ret);
             });
         }  
         
         [HttpPost]
-        public async Task<IActionResult> AddSize([FromBody]IEnumerable<SizeDTO> sizeDTOList, [FromQuery]int brandId = 0)
+        [Route("{id}/size/range")]
+        public async Task<IActionResult> Post([FromBody]IEnumerable<SizeDTO> sizeDTOList, [FromRoute]int id = 0)
         {
             return await _responseHelper.CreateResponse(async () =>
             {
                 var sizes = new List<Size>();
                 foreach (var sizeDTO in sizeDTOList)
                 {
-                    sizes.Add(new Size(rusSize:sizeDTO.RusSize, brandSize:sizeDTO.BrandSize, brandId: brandId));
+                    sizes.Add(new Size(rusSize:sizeDTO.RusSize, brandSize:sizeDTO.BrandSize, brandId: id));
                 }
-                var brand = await _brandService.AddSizeAsync(sizes, brandId);
+                var brand = await _brandService.AddSizeRangeAsync(sizes, id);
                 var ret = _mapper.Map<Domain.Entities.BrandAggregate.Brand, BrandDTO>(brand);
-                foreach (var size in brand.Sizes)
-                {
-                    ret.Sizes.Add(_mapper.Map<Size, SizeDTO>(size));
-                }
+                // foreach (var size in brand.Sizes)
+                // {
+                //     ret.Sizes.Add(_mapper.Map<Size, SizeDTO>(size));
+                // }
                 return Ok(ret);
             });
         }
-
-
-       
     }
 }

@@ -34,7 +34,7 @@ namespace Brand.API
         {
 
             services.AddDbContext<BrandDBContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+                options.UseNpgsql(Configuration.GetConnectionString("BrandConnection"),
                     x => x.UseNetTopologySuite()));
 
             services.AddAutoMapper(typeof(MappingProfile));
